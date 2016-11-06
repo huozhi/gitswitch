@@ -1,0 +1,25 @@
+{
+  "name": "git-switch",
+  "version": "1.0.0",
+  "description": "git@github.com:huozhi/git-switch.git",
+  "bin": "bin/git-switch.js",
+  "dependencies": {
+    "commander": "^2.9.0",
+    "ini": "^1.3.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/huozhi/git-switch.git"
+  },
+  "keywords": [
+    "git",
+    "profile",
+    "manage"
+  ],
+  "author": "huozhi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/huozhi/git-switch/issues"
+  },
+  "homepage": "https://github.com/huozhi/git-switch#readme"
+}
