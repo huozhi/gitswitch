@@ -9,6 +9,11 @@ var joinPath = path.join.bind(null, __dirname)
 var GITSWITCHRC = path.join(process.env.HOME, '.gitswitchrc')
 
 program
+  .command('ls')
+  .description('list all git profiles in ~/.gitswitchrc')
+  .action(listProfles)
+
+program
   .command('use [name]')
   .description('git switch user to [name]\'s config')
   .action(setUserInRepo)
@@ -17,6 +22,7 @@ program
   .command('add [alias] [name] [email]')
   .description('add alias for a new git profile, add [name] [email]')
   .action(addUser)
+
 
 program.parse(process.argv)
 
@@ -31,6 +37,16 @@ function readFileSync(filepath) {
 
 function formatConfig(config) {
   return ini.stringify(config, {whitespace: true})
+}
+
+function listProfles() {
+  var profiles = getGitUserAliases()
+  Object.keys(profiles).forEach(function(alias) {
+    var profile = profiles[alias]
+    console.log(alias)
+    console.log(' -', 'name:', profile.name)
+    console.log(' -', 'email:', profile.email)
+  })
 }
 
 function setUserInRepo(name) {
