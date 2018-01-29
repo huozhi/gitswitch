@@ -5,8 +5,10 @@ var ini = require('ini')
 var path = require('path')
 var program = require('commander')
 
-var joinPath = path.join.bind(null, __dirname)
+var joinPath = path.join.bind(null, process.cwd())
 var GITSWITCHRC = path.join(process.env.HOME, '.gitswitchrc')
+
+var log = console.log.bind(console, '\x1b[33m\x1b[1mgitswitch\x1b[0m')
 
 program
   .command('ls')
@@ -41,19 +43,23 @@ function formatConfig(config) {
 
 function listProfles() {
   var profiles = getGitUserAliases()
-  Object.keys(profiles).forEach(function(alias) {
-    var profile = profiles[alias]
-    console.log(alias)
-    console.log(' -', 'name:', profile.name)
-    console.log(' -', 'email:', profile.email)
-  })
+  var aliases = Object.keys(profiles)
+
+  if (aliases.length) {
+    aliases.forEach(function(alias) {
+      var profile = profiles[alias]
+      log('\n' + alias, '\n -', 'name:', profile.name, '\n -', 'email:', profile.email)
+    })
+  } else {
+    log('Empty here..')
+  }
 }
 
 function setUserInRepo(name) {
   var gitConfigPath = joinPath('.git/config')
   var hasGitConfig = fs.existsSync(gitConfigPath)
   if (!hasGitConfig) {
-    exitWithError('Your not in a git repository [' + __dirname + ']')
+    exitWithError('Your not in a git repository [' + process.cwd() + ']')
   }
   var record = getGitUserAliases()[name]
   if (!record) {
@@ -62,6 +68,7 @@ function setUserInRepo(name) {
   var config = ini.parse(readFileSync(gitConfigPath))
   config.user = record
   fs.writeFileSync(gitConfigPath, formatConfig(config))
+  log('Set profile successfully:', '[', config.user.name, '], [', config.user.email, ']')
 }
 
 function getGitUserAliases() {

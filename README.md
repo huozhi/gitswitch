@@ -16,7 +16,7 @@ $ gitswitch ls
 
 github
  - name: huozhi
- - email: huozhi@a.com
+ - email: huozhi@company.com
 work
  - name: mr
  - email: mr@workspace.com
@@ -25,20 +25,20 @@ work
 > gitswitch add [alias] [name] [email]
 
 ```
-$ gitswitch add github huozhi huozhi@a.com
+$ gitswitch add github huozhi huozhi@company.com
 ```
 
 > gitswitch use [alias]
 
 ```
-$ cd ~/workspace/yourrepo
+$ cd ~/workspace/your-repo
 $ gitswitch use github
 
 $ cat ./.git/config
 
 [user]
 name = huozhi
-email = a@mail.com
+email = huozhi@company.com
 ```
 
 ## LICENSE
