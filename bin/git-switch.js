@@ -3,6 +3,7 @@
 var fs = require('fs')
 var ini = require('ini')
 var path = require('path')
+var {exec} = require('child_process')
 var program = require('commander')
 
 var joinPath = path.join.bind(null, process.cwd())
@@ -25,6 +26,10 @@ program
   .description('add alias for a new git profile, add [name] [email]')
   .action(addUser)
 
+program
+  .command('override [email] [name] [next email]')
+  .description('override git history to replace [old email] with [name] and [next email]')
+  .action(overrideHistory)
 
 program.parse(process.argv)
 
@@ -87,3 +92,43 @@ function addUser(alias, name, email) {
   }
   syncGitUserAliases(aliasesMap)
 }
+
+function overrideHistory(
+  oldEmail,
+  name,
+  email
+) {
+  exec(`
+    git filter-branch --env-filter '
+
+    OLD_EMAIL="${oldEmail}"
+    CORRECT_NAME="${name}"
+    CORRECT_EMAIL="${email}"
+
+    if [ "$GIT_COMMITTER_EMAIL" = "$OLD_EMAIL" ]
+    then
+    export GIT_COMMITTER_NAME="$CORRECT_NAME"
+    export GIT_COMMITTER_EMAIL="$CORRECT_EMAIL"
+    fi
+    if [ "$GIT_AUTHOR_EMAIL" = "$OLD_EMAIL" ]
+    then
+    export GIT_AUTHOR_NAME="$CORRECT_NAME"
+    export GIT_AUTHOR_EMAIL="$CORRECT_EMAIL"
+    fi
+    ' --tag-name-filter cat -- --branches --tags
+  `, function(err, stdout, stderr) {
+    if (!err) {
+      console.log(stdout)
+      exec(`git push --force --tags origin 'refs/heads/*'`, function (err, stdout, stderr) {
+        if (!err) {
+          console.log(stdout)
+        } else {
+          console.error(stderr)
+        }
+      })
+    } else {
+      console.error(stderr)
+    }
+  })
+}
+
