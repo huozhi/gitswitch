@@ -1,7 +1,7 @@
 {
   "name": "gitswitch",
   "version": "0.2.0",
-  "description": "git@github.com:huozhi/git-switch.git",
+  "description": "git@github.com:huozhi/gitswitch.git",
   "bin": "bin/git-switch.js",
   "dependencies": {
     "commander": "^2.9.0",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/huozhi/git-switch.git"
+    "url": "git+https://github.com/huozhi/gitswitch.git"
   },
   "keywords": [
     "git",
