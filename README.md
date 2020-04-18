@@ -34,12 +34,16 @@ $ gitswitch add github huozhi huozhi@company.com
 $ cd ~/workspace/your-repo
 $ gitswitch use github
 
-$ cat ./.git/config
+$ cat .git/config
 
 [user]
 name = huozhi
 email = huozhi@company.com
 ```
+
+> gitswitch override [old email] [new name] [new email]
+
+override git commit history of [old email] with name [new name] and email [new email]
 
 ## LICENSE
 MIT
