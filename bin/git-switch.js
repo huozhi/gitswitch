@@ -119,13 +119,9 @@ function overrideHistory(
   `, function(err, stdout, stderr) {
     if (!err) {
       console.log(stdout)
-      exec(`git push --force --tags origin 'refs/heads/*'`, function (err, stdout, stderr) {
-        if (!err) {
-          console.log(stdout)
-        } else {
-          console.error(stderr)
-        }
-      })
+      const followupCommand = `git push --force --tags origin 'refs/heads/*'`
+      
+      console.log(`use the following command to push your refs to remote:\n\n${followupCommand}`)
     } else {
       console.error(stderr)
     }
