@@ -1,6 +1,6 @@
 {
   "name": "gitswitch",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "git@github.com:huozhi/gitswitch.git",
   "bin": "bin/git-switch.js",
   "dependencies": {

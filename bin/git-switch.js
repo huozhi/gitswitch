@@ -99,7 +99,7 @@ function overrideHistory(
   email
 ) {
   exec(`
-    git filter-branch --env-filter '
+    git filter-branch -f --env-filter '
 
     OLD_EMAIL="${oldEmail}"
     CORRECT_NAME="${name}"
